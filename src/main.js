@@ -16,6 +16,16 @@ var showSavedPostersBtn = document.querySelector('.show-saved');
 var savedPostersSection = document.querySelector('.saved-posters');
 var backToMainBtn = document.querySelector('.back-to-main');
 
+var imageInput = document.querySelector('#poster-image-url');
+var titleInput = document.querySelector('#poster-title');
+var quoteInput = document.querySelector('#poster-quote');
+console.log(imageInput);
+console.log(titleInput);
+console.log(quoteInput);
+var showMyPosterBtn = document.querySelector('.make-poster');
+var firstFormLabel = document.querySelector('label');
+console.log(firstFormLabel);
+
 // we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
@@ -136,6 +146,7 @@ makeYourOwnBtn.addEventListener('click', showMakeYourOwnForm);
 showSavedPostersBtn.addEventListener('click', showSavedPosters);
 takeMeBackBtn.addEventListener('click', takeMeBackToMain);
 backToMainBtn.addEventListener('click', backToMain);
+showMyPosterBtn.addEventListener('click', showNewPoster);
 
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
@@ -167,4 +178,19 @@ function takeMeBackToMain() {
 function backToMain() {
   savedPostersSection.classList.add('hidden');
   mainPosterSection.classList.remove('hidden');
+};
+
+function showNewPoster(event) {
+  event.preventDefault();
+  var newPoster = new Poster (imageInput.value, titleInput.value, quoteInput.vale);
+  images.push(imageInput.value);
+  console.log(images[images.length - 1]);
+  titles.push(titleInput.value);
+  quotes.push(quoteInput.value);
+  takeMeBackToMain();
+  console.log('show poster button was clicked');
+  console.log(images[images.length - 1]);
+  console.log(titles[titles.length - 1]);
+  console.log(quotes[quotes.length - 1]);
+  console.log(newPoster);
 };
