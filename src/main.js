@@ -11,7 +11,6 @@ var makeYourOwnBtn = document.querySelector('.show-form');
 var makeYourOwnForm = document.querySelector('.poster-form');
 var takeMeBackBtn = document.querySelector('.show-main');
 
-
 var showSavedPostersBtn = document.querySelector('.show-saved');
 var savedPostersSection = document.querySelector('.saved-posters');
 var backToMainBtn = document.querySelector('.back-to-main');
@@ -19,12 +18,14 @@ var backToMainBtn = document.querySelector('.back-to-main');
 var imageInput = document.querySelector('#poster-image-url');
 var titleInput = document.querySelector('#poster-title');
 var quoteInput = document.querySelector('#poster-quote');
-console.log(imageInput);
-console.log(titleInput);
-console.log(quoteInput);
+
 var showMyPosterBtn = document.querySelector('.make-poster');
-var firstFormLabel = document.querySelector('label');
-console.log(firstFormLabel);
+showMyPosterBtn.setAttribute('type', 'button');
+
+var savePosterBtn = document.querySelector('.save-poster');
+
+var grid = document.querySelector('.saved-posters-grid');
+
 
 // we've provided you with some data to work with 👇
 var images = [
@@ -127,18 +128,6 @@ var quotes = [
 var savedPosters = [];
 var currentPoster;
 
-// var newImage = images[0];
-// var newTitle = titles[0];
-// var newQuote = quotes[0];
-
-// title.innerText = newTitle;
-// quote.innerText = newQuote;
-// image.src = newImage;
-// image.alt = "bees";
-
-// console.log(newTitle);
-// console.log(quote);
-
 // event listeners go here 👇
 window.addEventListener('load', setPoster);
 randomBtn.addEventListener('click', setPoster);
@@ -147,6 +136,8 @@ showSavedPostersBtn.addEventListener('click', showSavedPosters);
 takeMeBackBtn.addEventListener('click', takeMeBackToMain);
 backToMainBtn.addEventListener('click', backToMain);
 showMyPosterBtn.addEventListener('click', showNewPoster);
+savePosterBtn.addEventListener('click', addPostertoSaved);
+grid.addEventListener('dblclick', removePoster);
 
 // functions and event handlers go here 👇
 // (we've provided one for you to get you started)!
@@ -168,6 +159,7 @@ function showMakeYourOwnForm() {
 function showSavedPosters() {
   mainPosterSection.classList.add('hidden');
   savedPostersSection.classList.remove('hidden');
+  gridView();
 };
 
 function takeMeBackToMain() {
@@ -180,17 +172,47 @@ function backToMain() {
   mainPosterSection.classList.remove('hidden');
 };
 
-function showNewPoster(event) {
-  event.preventDefault();
-  var newPoster = new Poster (imageInput.value, titleInput.value, quoteInput.vale);
+function showNewPoster() {
+  var newPoster = new Poster (imageInput.value, titleInput.value, quoteInput.value);
   images.push(imageInput.value);
-  console.log(images[images.length - 1]);
   titles.push(titleInput.value);
   quotes.push(quoteInput.value);
-  takeMeBackToMain();
-  console.log('show poster button was clicked');
-  console.log(images[images.length - 1]);
-  console.log(titles[titles.length - 1]);
-  console.log(quotes[quotes.length - 1]);
-  console.log(newPoster);
+  title.innerText = newPoster.title;
+  quote.innerText = newPoster.quote;
+  image.src = newPoster.imageURL;
+  takeMeBackToMain()
+};
+
+function addPostertoSaved() {
+  var newPosterMain = new Poster(image.src, title.innerText, quote.innerText);
+  if (!savedPosters.length) {
+    savedPosters.push(newPosterMain);
+  }
+  for(var i = 0; i < savedPosters.length; i++) {
+    if (savedPosters[i].imageURL === image.src && savedPosters[i].title === title.innerText && savedPosters[i].quote === quote.innerText) {
+      return;
+    }
+  }
+  savedPosters.push(newPosterMain);
+};
+
+function gridView() {
+  grid.innerHTML = '';
+  for (var i = 0; i < savedPosters.length; i++) {
+    grid.innerHTML += `<article class="mini-poster" id="${savedPosters[i].id}">
+      <img src="${savedPosters[i].imageURL}" alt="nothin' to see here">
+      <h2>${savedPosters[i].title}</h2>
+      <h4>${savedPosters[i].quote}</h4>
+    </article>`;
+  }
+};
+
+function removePoster() {
+  var targetID = parseInt(event.target.parentNode.id);
+  for (var i = 0; i < savedPosters.length; i++) {
+    if (targetID === savedPosters[i].id) {
+      event.target.parentNode.remove();
+      savedPosters.splice(i, 1);
+    }
+  }
 };
