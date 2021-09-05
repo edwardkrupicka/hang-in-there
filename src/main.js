@@ -19,6 +19,10 @@ var takeMeBackBtn = document.querySelector('.show-main');
 var showSavedPostersBtn = document.querySelector('.show-saved');
 var backToMainBtn = document.querySelector('.back-to-main');
 var showMyPosterBtn = document.querySelector('.make-poster');
+
+//  COMMENT #1:
+//    I think there was instruction not to modify the html file,
+//    but this is the type of thing that that should be  implemented directly in the html.
 showMyPosterBtn.setAttribute('type', 'button');
 var savePosterBtn = document.querySelector('.save-poster');
 
@@ -140,6 +144,16 @@ function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 };
 
+//  COMMENT #2:
+//    The name of this function is slightly different than its functionality.
+//    The functionality to me is more akin to `displayRandomPoster()`
+
+//  COMMENT #3:
+//    After reviewing `makeCustomPoster`, I dislike that this function and that function are handling setting
+//    the main poster display differently. This one isn't setting the `currentPoster` variable
+//    with a new instance of `Poster`, and the other is not. I think you should always strive to solve the same
+//    problem the same way. You could probably create a single reusable function in both places.
+
 function setMainPoster() {
   mainTitle.innerText = titles[getRandomIndex(titles)];
   mainQuote.innerText = quotes[getRandomIndex(quotes)];
@@ -157,6 +171,10 @@ function showSavedPosters() {
   createGridView();
 };
 
+//  COMMENT #4:
+//    The naming of the following 2 functions is ambiguous, especially because they are doing very similar things.
+//    I would always make sure it's explicit, though I might suggest refactoring both to be a single function
+//    that incorporates both. This way you can just reference a single function
 function takeMeBackToMain() {
   makeYourOwnFormSection.classList.add('hidden');
   mainPosterSection.classList.remove('hidden');
@@ -167,6 +185,10 @@ function backToMain() {
   mainPosterSection.classList.remove('hidden');
 };
 
+// See Comment #3 above
+
+// Question:
+//    Does it matter that it's possible to add duplicate images, titles, and quotes to the source material?
 function makeCustomPoster() {
   currentPoster = new Poster(imageInput.value, titleInput.value, quoteInput.value);
   mainImage.src = imageInput.value;
@@ -178,6 +200,11 @@ function makeCustomPoster() {
   takeMeBackToMain();
 };
 
+// Comment #5:
+//    Lines 210 - 212 seems... redundant / perhaps vestigial. Doesn't line 213 - 217 do this already?
+
+// Comment #6:
+//    This totally works but can you think of a way to implement line 214 using the `id` property of your `Poster` class instead?
 function addPosterToSaved() {
   currentPoster = new Poster(mainImage.src, mainTitle.innerText, mainQuote.innerText);
   if (!savedPosters.length) {
@@ -191,6 +218,8 @@ function addPosterToSaved() {
   savedPosters.push(currentPoster);
 };
 
+// Comment #7:
+//    This totally works, but can you imagine a different system that doesn't completely erase and rebuild the grid every time it's displayed?
 function createGridView() {
   grid.innerHTML = '';
   for (var i = 0; i < savedPosters.length; i++) {
