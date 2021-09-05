@@ -11,13 +11,13 @@ This application allows the user to view randomized inspirational posters. It's 
 
 ### Illustrations
 
-##### Main Page
+##### Main page
 ![Main Section Here](readme-imgs/homepage.png)
 
-##### Make you own form section
+##### Make you own poster form section
 ![Create Poster Form Here](readme-imgs/form.png)
 
-##### User created poster displayed on main
+##### User created poster displayed on main page
 ![Newly Created Poster Result Here](readme-imgs/form-result.png)
 
 ##### Saved poster grid
@@ -36,9 +36,9 @@ This application allows the user to view randomized inspirational posters. It's 
 ### Collaborators  
 [Edward Krupicka](https://github.com/edwardkrupicka) - Contributor  
 [Joan Rasmussen](https://github.com/raz-joan) - Contributor  
-[Rachael Thomas](https://github.com/rachael-t) - Reviewer  
-[Matthew Lane](https://github.com/GreyMatteOr) - Reviewer  
-[Cassandra Torske](https://github.com/cassandraGoose) - Project Manager  
+[Rachael Thomas](https://github.com/rachael-t) - Reviewer / Mentor  
+[Matthew Lane](https://github.com/GreyMatteOr) - Reviewer / Mentor  
+[Cassandra Torske](https://github.com/cassandraGoose) - Project Manager / Instructor  
 
 
 
