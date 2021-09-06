@@ -3,6 +3,7 @@ var mainImage = document.querySelector('.poster-img');
 var mainTitle = document.querySelector('.poster-title');
 var mainQuote = document.querySelector('.poster-quote');
 
+
 var imageInput = document.querySelector('#poster-image-url');
 var titleInput = document.querySelector('#poster-title');
 var quoteInput = document.querySelector('#poster-quote');
@@ -124,12 +125,12 @@ var savedPosters = [];
 var currentPoster;
 
 // event listeners go here 👇
-window.addEventListener('load', setMainPoster);
-randomBtn.addEventListener('click', setMainPoster);
+window.addEventListener('load', displayRandomPoster);
+randomBtn.addEventListener('click', displayRandomPoster);
 makeYourOwnBtn.addEventListener('click', showMakeYourOwnForm);
 showSavedPostersBtn.addEventListener('click', showSavedPosters);
-takeMeBackBtn.addEventListener('click', takeMeBackToMain);
-backToMainBtn.addEventListener('click', backToMain);
+takeMeBackBtn.addEventListener('click', returnToMainFromForm);
+backToMainBtn.addEventListener('click', returnToMainFromSaved);
 showMyPosterBtn.addEventListener('click', makeCustomPoster);
 savePosterBtn.addEventListener('click', addPosterToSaved);
 grid.addEventListener('dblclick', removePoster);
@@ -140,10 +141,18 @@ function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 };
 
-function setMainPoster() {
+function displayRandomPoster() {
   mainTitle.innerText = titles[getRandomIndex(titles)];
   mainQuote.innerText = quotes[getRandomIndex(quotes)];
   mainImage.src = images[getRandomIndex(images)];
+  splitImageURL(mainImage);
+};
+
+function splitImageURL(image) {
+  var imageSrc = image.src;
+  var string = imageSrc.split('/');
+  var imageNames = string[string.length - 1].split('.');
+  image.alt = imageNames[0];
 };
 
 function showMakeYourOwnForm() {
@@ -157,12 +166,12 @@ function showSavedPosters() {
   createGridView();
 };
 
-function takeMeBackToMain() {
+function returnToMainFromForm() {
   makeYourOwnFormSection.classList.add('hidden');
   mainPosterSection.classList.remove('hidden');
 };
 
-function backToMain() {
+function returnToMainFromSaved() {
   savedPostersSection.classList.add('hidden');
   mainPosterSection.classList.remove('hidden');
 };
@@ -175,14 +184,11 @@ function makeCustomPoster() {
   images.push(imageInput.value);
   titles.push(titleInput.value);
   quotes.push(quoteInput.value);
-  takeMeBackToMain();
+  returnToMainFromForm();
 };
 
 function addPosterToSaved() {
   currentPoster = new Poster(mainImage.src, mainTitle.innerText, mainQuote.innerText);
-  if (!savedPosters.length) {
-    savedPosters.push(currentPoster);
-  }
   for (var i = 0; i < savedPosters.length; i++) {
     if (savedPosters[i].imageURL === mainImage.src && savedPosters[i].title === mainTitle.innerText && savedPosters[i].quote === mainQuote.innerText) {
       return;
@@ -194,11 +200,11 @@ function addPosterToSaved() {
 function createGridView() {
   grid.innerHTML = '';
   for (var i = 0; i < savedPosters.length; i++) {
-      grid.innerHTML += `<article class="mini-poster" id="${savedPosters[i].id}">
-      <img src="${savedPosters[i].imageURL}" alt="nothin' to see here">
-      <h2>${savedPosters[i].title}</h2>
-      <h4>${savedPosters[i].quote}</h4>
-      </article>`;
+    grid.innerHTML += `<article class="mini-poster" id="${savedPosters[i].id}">
+    <img src="${savedPosters[i].imageURL}" alt="${savedPosters[i].imageURL}">
+    <h2>${savedPosters[i].title}</h2>
+    <h4>${savedPosters[i].quote}</h4>
+    </article>`;
   }
 };
 
